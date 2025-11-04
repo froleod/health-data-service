@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: health-data-service
+
+  r2dbc:
+    url: r2dbc:h2:mem:///healthdb;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+
+  sql:
+    init:
+      mode: always
