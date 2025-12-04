@@ -6,6 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -15,10 +16,16 @@ import java.time.Instant;
 public class HealthData {
     @Id
     private Long id;
+    private UUID userId;
     private String deviceId;
-    private int heartRate;
-    private int steps;
-    private double calories;
+    private Integer heartRate;
+    private Integer steps;
+    private Double calories;
+    private Integer systolicPressure;
+    private Integer diastolicPressure;
+    private Double glucose;
+    private Integer spo2;
+    private String source; // wearable / manual
     private Instant timestamp;
 }
 

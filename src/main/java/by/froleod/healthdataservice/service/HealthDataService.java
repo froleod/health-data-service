@@ -8,6 +8,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -16,18 +17,14 @@ public class HealthDataService {
 
     public Mono<HealthData> saveData(HealthData data) {
         data.setTimestamp(Instant.now());
-        return repository.save(data)
-                .doOnNext(d -> System.out.println("Сохранено: " + d))
-                .onErrorResume(e -> {
-                    System.err.println("Ошибка при сохранении: " + e.getMessage());
-                    return Mono.empty();
-                });
+        return repository.save(data).doOnNext(d -> System.out.println("Сохранено: " + d)).onErrorResume(e -> {
+            System.err.println("Ошибка при сохранении: " + e.getMessage());
+            return Mono.empty();
+        });
     }
 
     public Flux<HealthData> getAllData() {
-        return repository.findAll()
-                .limitRate(5) // демонстрация backpressure
-                .log();
+        return repository.findAll().limitRate(5);
     }
 
     public Flux<HealthData> getByDevice(String deviceId) {
@@ -40,5 +37,9 @@ public class HealthDataService {
 
     public Mono<Void> delete(String id) {
         return repository.deleteById(Long.valueOf(id));
+    }
+
+    public Flux<HealthData> getByUser(UUID userId) {
+        return repository.findByUserId(userId);
     }
 }

@@ -3,10 +3,13 @@ spring:
     name: health-data-service
 
   r2dbc:
-    url: r2dbc:h2:mem:///healthdb;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
+    url: r2dbc:postgresql://localhost:5433/healthdb
+    username: health_user
+    password: health_pass
 
-  sql:
-    init:
-      mode: always
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    org.springframework.r2dbc: DEBUG
