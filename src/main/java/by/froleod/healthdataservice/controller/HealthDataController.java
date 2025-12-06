@@ -23,11 +23,6 @@ public class HealthDataController {
     private final HealthDataService service;
 
     @PostMapping
-    public Mono<HealthData> save(@RequestBody HealthData data) {
-        return service.saveData(data);
-    }
-
-    @PostMapping
     public Mono<HealthData> save(@RequestBody HealthData data, @RequestHeader("X-User-Id") String userId) {
         data.setUserId(UUID.fromString(userId));
         return service.saveData(data);
